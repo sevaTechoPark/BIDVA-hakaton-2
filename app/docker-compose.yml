@@ -1,0 +1,14 @@
+services:
+  server:
+    build:
+      context: ./backend/
+    network_mode: "host"
+  app:
+    build:
+      context: ./web/
+      dockerfile: Dockerfile
+    network_mode: "host"
+    environment:
+      - NODE_ENV=development
+    depends_on:
+      - server
