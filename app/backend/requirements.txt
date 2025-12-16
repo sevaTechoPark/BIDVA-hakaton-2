@@ -2,3 +2,5 @@ fastapi==0.115.12
 scikit_learn==1.6.1
 transformers==4.51.3
 uvicorn==0.34.2
+docx2pdf==0.1.8
+PyMuPDF==1.26.5
