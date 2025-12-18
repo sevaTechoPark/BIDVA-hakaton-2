@@ -4,6 +4,7 @@ import { Button } from 'primereact/button';
 import { InputText } from 'primereact/inputtext';
 import { InputTextarea } from 'primereact/inputtextarea';
 import { Card } from 'primereact/card';
+import SearchToolbar from './Toolbar/Toolbar';
 
 interface ISearchResult {
     startIndex: number;
@@ -23,6 +24,7 @@ function App() {
     const [searchResult, setSearchResult] = useState<ISearchResult>(null);
 
     async function onSearch() {
+        return;
         try {
             setLoadSearch(true);
 
@@ -40,15 +42,6 @@ function App() {
             });
             const searchResult: ISearchResult = await response.json();
 
-            // защита от дурака
-            if (
-                searchResult.startIndex < 0
-                || searchResult.startIndex > originalText.length
-                || searchResult.endIndex > originalText.length
-            ) {
-                throw new Error('Что-то не так с индексами start-end');
-            }
-
             setSearchRequestDocument(document);
             setSearchRequestWord(word);
             setSearchResult(searchResult);
@@ -65,20 +58,25 @@ function App() {
         setSearchResult(null);
     }
 
+    function updateFilter(data) {
+        console.log('updateFilter', data);
+    }
+
     const isEmptySearch =
         (searchResult?.startIndex === 0 && searchResult?.endIndex === 0)
         || searchResult?.probability < THRESHOLD_PROBABILITY;
 
     return (
         <main>
-            <Card title="Семантический текстовый поиск">
+            <Card title="AI-агент поиска статей" className="main-description">
                 <p className="m-0">
-                    Система семантического текстового поиска слов (словосочетаний), учитывающую не только точное
-                    написание, но и смысловое значение.
-                    Результатом должно быть определение позиции найденного слова/словосочетания в тексте и оценка
-                    вероятности совпадения.
+                    AI-агент для интеллектуального поиска и анализа статей технологических СМИ.
+                    Способен находить статьи по запросу, генерировать краткое аннотированное резюме,
+                    выводить ссылки на источники и предлагать пользователю
+                    дополнительные функции поиска и анализа контента.
                 </p>
             </Card>
+            <SearchToolbar updateFilter={updateFilter}/>
 
             <div className='grid-input'>
                 <div className="textarea">
@@ -86,7 +84,6 @@ function App() {
                         value={originalText}
                         onChange={(e) => setOriginalText(e.target.value)}
                         rows={5}
-                        cols={30}
                         placeholder={'Текст в котором ищем'}
                     />
                 </div>
