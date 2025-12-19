@@ -1,3 +1,23 @@
+.filters-toolbar {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.p-toolbar {
+    padding: 24px;
+}
+
 span.p-calendar {
     width: 215px;
+}
+
+.input-search {
+    height: 40px;
+    width: 100%;
+    resize: none;
+}
+
+.text-red {
+    color: #ff4032;
 }
