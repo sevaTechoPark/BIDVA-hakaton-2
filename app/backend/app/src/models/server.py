@@ -1,7 +1,7 @@
 import uvicorn
 from fastapi import FastAPI, Body
 from fastapi.responses import JSONResponse
-from semantic_search import SemanticSearch
+from app.backend.app.src.models.semantic_search import SemanticSearch
 from fastapi.middleware.cors import CORSMiddleware
 
 search_model = SemanticSearch()
