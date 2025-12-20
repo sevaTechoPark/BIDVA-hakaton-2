@@ -1,7 +1,7 @@
 import torch
 from transformers import AutoTokenizer, AutoModel
 from sklearn.metrics.pairwise import cosine_similarity
-from text_preparetion import TextPreparetion
+from app.backend.app.src.models.text_preparetion import TextPreparetion
 
 class SemanticSearch:
 
