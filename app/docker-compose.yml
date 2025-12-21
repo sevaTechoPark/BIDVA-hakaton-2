@@ -3,6 +3,8 @@ services:
     build:
       context: ./backend/
     network_mode: "host"
+    environment:
+      - GIGA_TOKEN=secret_token
     depends_on:
       - qdrant
 

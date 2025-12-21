@@ -65,7 +65,6 @@ class Qdrant_db():
             collection_name=self.__COLLECTION_NAME,
             query=filters.embedding,
             query_filter=query_filter,
-            limit=10,
             with_payload=True,
             with_vectors=False
         )
