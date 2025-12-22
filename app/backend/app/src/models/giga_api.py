@@ -8,7 +8,6 @@ class Giga_LLM():
     def __init__(self):
         # Читаем токен из переменной среды
         token = os.getenv('GIGA_TOKEN')
-        token = "YjJlYzktZjJmYy03M2E3LTgzYTItZmVmMzI3ZDM4YzYxOjg4YjcxYjZiLTY5YmYtNDM0ZS1iODkwLThmN2RkNTdjMjI1Z"
 
         self.giga_model = GigaChat(
             credentials=token,

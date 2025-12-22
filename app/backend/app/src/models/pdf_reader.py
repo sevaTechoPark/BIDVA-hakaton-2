@@ -1,4 +1,4 @@
-import fitz
+import pymupdf
 import io
 import dateparser
 
@@ -17,7 +17,7 @@ class Pdf_Reader():
         Returns: 
             (ArticleSchema): Содержимое статьи
         """
-        pdf_file = fitz.open(file_path)
+        pdf_file = pymupdf.open(file_path)
         article_content = self.__pdf_parse(pdf_file)
         pdf_file.close()
 
@@ -34,7 +34,7 @@ class Pdf_Reader():
 
         contents = file.file.read()
         pdf_stream = io.BytesIO(contents)
-        pdf_file = fitz.open(stream=pdf_stream, filetype="pdf")
+        pdf_file = pymupdf.open(stream=pdf_stream, filetype="pdf")
         article_content = self.__pdf_parse(pdf_file)
         pdf_file.close()
 
@@ -44,7 +44,7 @@ class Pdf_Reader():
         """
         Разбор файла PDF
         Parameters: 
-            pdf_file (fitz file): Файл fitz
+            pdf_file (pymupdf file): Файл pymupdf
         Returns: 
             (ArticleSchema): Содержимое статьи
         """
