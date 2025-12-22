@@ -20,7 +20,7 @@ export interface ISearchResult {
 }
 
 interface IProps {
-    onSearched: (data: ISearchResult) => void;
+    onSearched: (data: ISearchResult | null) => void;
 }
 
 export default function SearchToolbar(props: IProps) {
@@ -37,20 +37,30 @@ export default function SearchToolbar(props: IProps) {
             setLoadSearch(true);
             setHasSearchError(false);
 
-            await new Promise(resolve => setTimeout(resolve, 2000));
-            // const response = await fetch('http://localhost:5151/search', {
-            //                 method: 'POST',
-            //                 body: JSON.stringify({
-            //                     document,
-            //                     word,
-            //                 }),
-            //                 headers: {
-            //                     'Content-Type': 'application/json',
-            //                 },
-            //             });
-            //             const searchResult: ISearchResult = await response.json();
+
+            const response = await fetch('http://localhost:5151/rag', {
+                            method: 'POST',
+                            body: JSON.stringify({
+                                filter: {
+                                    author,
+                                    start_date: dateRange[0],
+                                    end_date: dateRange[1],
+                                },
+                                request_text: textToSearch,
+                            }),
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                        });
+            const searchResult: {text: string; links: string[]} = await response.json();
+            if (searchResult.text.includes('не найден')) {
+                setHasSearchError(true);
+                props.onSearched(null);
+                return;
+            }
+
             props.onSearched({
-                annotation: 'В современном мире информационных технологий стремительное развитие цифровых решений оказывает значительное влияние на все сферы жизни общества. Данная статья посвящена анализу ключевых тенденций в области IT, включая внедрение облачных вычислений, развитие искусственного интеллекта, автоматизацию бизнес-процессов и обеспечение кибербезопасности. Особое внимание уделяется вопросам интеграции новых технологий в существующую инфраструктуру предприятий, а также рассмотрению перспектив развития программного обеспечения с учетом современных требований рынка. В статье приводятся примеры успешных кейсов внедрения инновационных решений, обсуждаются основные вызовы, с которыми сталкиваются компании на пути цифровой трансформации, и предлагаются рекомендации по эффективному использованию IT-инструментов для повышения конкурентоспособности бизнеса. Кроме того, рассматривается роль специалистов в области информационных технологий в формировании цифровой экономики будущего.',
+                annotation: searchResult.text,
                 links: [
                     { href: "https://habr.com/ru/articles/it", label: "Habr: IT-статьи" },
                     { href: "https://vc.ru/tech", label: "VC.ru: Технологии" },
@@ -140,11 +150,11 @@ export default function SearchToolbar(props: IProps) {
                     label={loadSearch ? 'Поиск...' : 'Мне повезёт'}
                     className="p-button-rounded"
                     onClick={onSearch}
-                    disabled={loadSearch || (!textToSearch && (!author && !subject && !calendarValue))}
+                    disabled={loadSearch || !textToSearch}
                 />
                 {hasSearchError && (
                     <span className="text-red">
-                        Не повезло... Произошла ошибка
+                        Не найдены статьи на заданную тему
                     </span>
                 )}
             </div>
