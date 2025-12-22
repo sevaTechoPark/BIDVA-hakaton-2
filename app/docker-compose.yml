@@ -19,7 +19,7 @@ services:
       - server
 
   qdrant:
-    image: qdrant/qdrant:v1.7.3
+    image: qdrant/qdrant:v1.16.2
     network_mode: "host"
     volumes:
       - ./qdrant_data:/qdrant/storage
