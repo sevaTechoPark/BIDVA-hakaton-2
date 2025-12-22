@@ -7,10 +7,12 @@ class Giga_LLM():
 
     def __init__(self):
         # Читаем токен из переменной среды
-        token = os.getenv('GIGA_TOKEN')
+        GIGA_TOKEN = os.getenv('GIGA_TOKEN')
+        if not GIGA_TOKEN:
+            raise RuntimeError('GIGA_TOKEN is not set in environment variables!')
 
         self.giga_model = GigaChat(
-            credentials=token,
+            credentials=GIGA_TOKEN,
             scope="GIGACHAT_API_PERS",
             model="GigaChat-2",
             verify_ssl_certs=False

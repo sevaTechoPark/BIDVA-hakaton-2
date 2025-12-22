@@ -1,10 +1,15 @@
+import os
 from gigachat import GigaChat
 from gigachat.models import Chat, Messages, MessagesRole
+
+GIGA_TOKEN = os.getenv('GIGA_TOKEN')
+if not GIGA_TOKEN:
+    raise RuntimeError('GIGA_TOKEN is not set in environment variables!')
 
 # Создаем модель общения
 giga = GigaChat(
    # смотри в чатике
-   credentials="YjJlYzktZjJmYy03M2E3LTgzYTItZmVmMzI3ZDM4YzYxOjg4YjcxYjZiLTY5YmYtNDM0ZS1iODkwLThmN2RkNTdjMjI1Z",
+   credentials=GIGA_TOKEN,
    scope="GIGACHAT_API_PERS",
    model="GigaChat-2"
    ,verify_ssl_certs=False
