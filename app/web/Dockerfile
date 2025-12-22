@@ -1,9 +1,8 @@
 FROM node:20
 
-WORKDIR /ui
+WORKDIR /app
 
-COPY app .
-
+COPY ./app ./
 RUN yarn install
 
 CMD ["yarn", "dev"]

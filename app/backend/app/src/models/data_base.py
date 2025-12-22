@@ -90,16 +90,10 @@ class Qdrant_db():
         """
 
         if not self.qdrant_client.collection_exists(collection_name = collection_name):
-
             self.qdrant_client.create_collection(
                 collection_name = collection_name,
                 vectors_config = models.VectorParams(
                     size = vector_len,
                     distance = models.Distance.COSINE
                 ),
-                payload_schema={
-                    "link": models.PayloadSchemaType.KEYWORD,
-                    "author": models.PayloadSchemaType.KEYWORD,
-                    "date": models.PayloadSchemaType.DATETIME
-                }
             )

@@ -4,9 +4,12 @@ services:
       context: ./backend/
     network_mode: "host"
     environment:
-      - GIGA_TOKEN=secret_token
+      - GIGA_TOKEN=${GIGA_TOKEN}
     depends_on:
       - qdrant
+    volumes:
+      # для того чтобы не нужно было пересобирать образы при изменениях в коде
+      - ./backend/app:/app
 
   app:
     build:
