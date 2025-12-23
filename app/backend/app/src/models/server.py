@@ -90,6 +90,6 @@ class Model():
             context = context + chank.text + "\n"
 
         return RagResponseSchema(
-            text=self.__llm.get_summary(context=context, question=request.filter.create_test),
+            text=self.__llm.get_summary(context=context),
             links=list(set(links))
         )

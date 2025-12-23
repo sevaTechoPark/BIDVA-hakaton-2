@@ -18,10 +18,10 @@ class Giga_LLM():
             verify_ssl_certs=False
         )
     
-    def get_summary(self, context:str, question=False)->str:
+    def get_summary(self, context:str)->str:
         
         llm_request = [
-            Messages(role=MessagesRole.SYSTEM, content=self.__get_head_prompt(question=question)),
+            Messages(role=MessagesRole.SYSTEM, content=self.__get_head_prompt()),
             Messages(role=MessagesRole.USER, content=context)
         ]
 
@@ -43,14 +43,10 @@ class Giga_LLM():
         # Генерируем ответ
         return self.giga_model.chat(chat_object)
     
-    def __get_head_prompt(self, question=False):
+    def __get_head_prompt(self):
 
-        main_prompt =  """
+        return  """
         Необходимо на основе контекста сформировать краткий пересказ.
         Повествование ответа должно быть логически верным.
         В ответе необходимо привести точные цитаты без искажения текста.
         """
-        if question:
-            main_prompt += "\nНа основе контекста необходимо сформировать небольшой тест."
-
-        return question
