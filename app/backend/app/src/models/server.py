@@ -80,7 +80,7 @@ class Model():
         
         links = list()
         context = str()
-        context_limit = 1000
+        context_limit = 3000
 
         for chank in chanks:
             if len(context) > context_limit:
