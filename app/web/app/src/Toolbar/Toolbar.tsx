@@ -37,12 +37,11 @@ export default function SearchToolbar(props: IProps) {
             setLoadSearch(true);
             setHasSearchError(false);
 
-
             const response = await fetch('http://localhost:5151/rag', {
                             method: 'POST',
                             body: JSON.stringify({
                                 filter: {
-                                    author,
+                                    author: author ? author : undefined,
                                     start_date: dateRange[0],
                                     end_date: dateRange[1],
                                 },
@@ -61,15 +60,12 @@ export default function SearchToolbar(props: IProps) {
 
             props.onSearched({
                 annotation: searchResult.text,
-                links: [
-                    { href: "https://habr.com/ru/articles/it", label: "Habr: IT-статьи" },
-                    { href: "https://vc.ru/tech", label: "VC.ru: Технологии" },
-                    { href: "https://www.cnews.ru/", label: "CNews: Новости IT" },
-                    { href: "https://www.ixbt.com/", label: "iXBT: IT-обзоры" },
-                    { href: "https://www.computerworld.com/", label: "Computerworld" },
-                    { href: "https://www.techradar.com/", label: "TechRadar" },
-                    { href: "https://www.wired.com/category/tech/", label: "Wired: Tech" }
-                ],
+                links: searchResult.links.map(link => {
+                    return {
+                        href: link,
+                        label: link.replace(/^https?:\/\//, ''),
+                    }
+                }),
             })
         } catch (ex) {
             setHasSearchError(true);
